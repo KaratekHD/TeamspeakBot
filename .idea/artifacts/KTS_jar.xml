@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="KTS:jar">
+    <output-path>$PROJECT_DIR$/../Builds</output-path>
+    <root id="archive" name="KTS.jar">
+      <element id="module-output" name="KTS" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../libs/teamspeak3-api-1.2.0-with-dependencies.jar" path-in-jar="/" />
+      <element id="library" level="project" name="teamspeak3-api-1.2.0-with-dependencies" />
+    </root>
+  </artifact>
+</component>
