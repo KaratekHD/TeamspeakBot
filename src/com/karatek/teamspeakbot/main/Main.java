@@ -11,6 +11,7 @@ import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 import com.github.theholywaffle.teamspeak3.api.event.*;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
+import com.github.theholywaffle.teamspeak3.api.wrapper.ServerGroup;
 import com.karatek.teamspeakbot.main.utils.prefixhelper;
 
 import java.io.BufferedReader;
@@ -52,28 +53,32 @@ public class Main {
 
 			@Override
 			public void onTextMessage(TextMessageEvent e) {
-				if (e.getTargetMode() == TextMessageTargetMode.CHANNEL && e.getInvokerId() != clientId) {
+				if (e.getTargetMode() == TextMessageTargetMode.CLIENT && e.getInvokerId() != clientId) {
 					String message = e.getMessage().toLowerCase();
+					if(api.getClientInfo(e.getInvokerId()).isInServerGroup(20345))
 					if(message.startsWith("!")) {
 						switch (message) {
 							case "!ping":
-								api.sendChannelMessage("pong");
+								api.sendPrivateMessage(e.getInvokerId(),"pong");
 								break;
 							case "!exit":
-								api.sendChannelMessage("I am offline!");
+								api.sendServerMessage("I am offline!");
 								try{ api.setNickname("NameHere"); }catch (Exception ignored){ }
 								query.exit();
+								System.out.print((char)13);
 								System.out.println(prefixhelper.getPrefix() + "Shutting down.");
 								System.exit(0);
-
-							case "!hello":
-								api.sendChannelMessage("Hello " + e.getInvokerName() + "!");
-								break;
 							default:
-								api.sendChannelMessage("Unknown command.");
+								api.sendPrivateMessage(e.getInvokerId(),"Unknown command.");
 						}
 					}
 
+				} else {
+					if(e.getTargetMode() != TextMessageTargetMode.CLIENT && clientId != e.getInvokerId()) {
+						System.out.print((char)13);
+						System.out.println(prefixhelper.getPrefix() + api.getClientInfo(e.getInvokerId()).getNickname() + " said: " + e.getMessage());
+						System.out.print("> ");
+					}
 				}
 
 			}
@@ -155,9 +160,13 @@ public class Main {
 			}
 		});
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String input;
 		while(true) {
 			System.out.print("> ");
-			switch (br.readLine()) {
+			input = br.readLine();
+			String[] strings = input.split(" ");
+			String tosay = "";
+			switch (strings[0]) {
 				case "exit":
 					api.sendChannelMessage("I am offline!");
 					try{ api.setNickname("NameHere"); }catch (Exception ignored){ }
@@ -165,6 +174,18 @@ public class Main {
 					System.out.print((char)13);
 					System.out.println(com.karatek.teamspeakbot.main.utils.prefixhelper.getPrefix() + "Shutting down.");
 					System.exit(0);
+					break;
+				case "say":
+					if(strings.length < 2) {
+						System.out.println(com.karatek.teamspeakbot.main.utils.prefixhelper.getPrefix() + "Usage: say <text>");
+					}
+					int i = 1;
+					while (i < strings.length) {
+						tosay = tosay + " " + strings[i];
+						i++;
+					}
+					api.sendServerMessage(tosay);
+					System.out.println(com.karatek.teamspeakbot.main.utils.prefixhelper.getPrefix() + "Broadcasted '" + tosay + "'");
 					break;
 			default:
 				System.out.println(prefixhelper.getPrefix() + "Unknown command.");
