@@ -119,7 +119,8 @@ public class Main {
 						List<Client> clients = api.getClients();
 						for (Client client : clients) {
 							if (client.isInServerGroup(20345)) {
-								api.sendPrivateMessage(client.getId(), "Message!");
+								String pushmsg = "Client '" + api.getClientInfo(clientMovedEvent.getClientId()).getNickname() + "' is waiting for support!";
+								api.sendPrivateMessage(client.getId(), pushmsg);
 							}
 						}
 					}
