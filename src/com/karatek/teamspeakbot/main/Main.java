@@ -10,12 +10,14 @@ import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 import com.github.theholywaffle.teamspeak3.api.event.*;
+import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.karatek.teamspeakbot.main.utils.prefixhelper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class Main {
 
@@ -109,8 +111,22 @@ public class Main {
 			public void onClientMoved(ClientMovedEvent clientMovedEvent) {
 				System.out.print((char)13);
 				System.out.println(prefixhelper.getPrefix() + "Client " + api.getClientInfo(clientMovedEvent.getClientId()).getNickname() + " was moved to " + api.getChannelInfo(clientMovedEvent.getTargetChannelId()).getName());
+				if(api.getChannelInfo(clientMovedEvent.getTargetChannelId()).getName().startsWith("╔ Support - Warteschlange")) {
+					if(api.getClientInfo(clientMovedEvent.getClientId()).isInServerGroup(20345)) {
+
+					} else {
+						System.out.println(prefixhelper.getPrefix() + "Client " + api.getClientInfo(clientMovedEvent.getClientId()).getNickname() + " is waiting for support!");
+						List<Client> clients = api.getClients();
+						for (Client client : clients) {
+							if (client.isInServerGroup(20345)) {
+								api.sendPrivateMessage(client.getId(), "Message!");
+							}
+						}
+					}
+					}
 				System.out.print("> ");
-			}
+				}
+
 
 			@Override
 			public void onChannelCreate(ChannelCreateEvent channelCreateEvent) {
