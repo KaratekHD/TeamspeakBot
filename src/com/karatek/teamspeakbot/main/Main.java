@@ -43,6 +43,7 @@ public class Main {
 		api.selectVirtualServerByPort(12500);
 		api.setNickname("Karatek Teamspeak Bot");
 		System.out.println(prefixhelper.getPrefix() + "Connected successfully!");
+		api.sendServerMessage("I am online!");
 		api.registerAllEvents();
 		// Get our own client ID by running the "whoami" command
 		final int clientId = api.whoAmI().getId();
@@ -168,6 +169,7 @@ public class Main {
 			String tosay = "";
 			switch (strings[0]) {
 				case "exit":
+				case "stop":
 					api.sendChannelMessage("I am offline!");
 					try{ api.setNickname("NameHere"); }catch (Exception ignored){ }
 					query.exit();
@@ -187,8 +189,46 @@ public class Main {
 					api.sendServerMessage(tosay);
 					System.out.println(com.karatek.teamspeakbot.main.utils.prefixhelper.getPrefix() + "Broadcasted '" + tosay + "'");
 					break;
+				case "select":
+					if(strings.length != 2) {
+						System.out.println("Usage: select <id>");
+					} else {
+						System.out.println("Well.");
+					}
+                case "list":
+				case "ls":
+                    int list_counted = 0;
+                    Object[] array = api.getClients().toArray();
+					int clients = array.length;
+					Client client;
+					System.out.println("The following Users are online: \n");
+					System.out.println("ID	Nickname");
+					while (list_counted < clients) {
+                    	Object object = array[list_counted];
+                    	String str = object.toString();
+                    	str = str.replace("{", "");
+						str = str.replace("}", "");
+						String[] clientInfo = str.split(",");
+						String ls_id = clientInfo[15].replace(" clid=", "");
+
+						if(!ls_id.equals(String.valueOf(clientId))) {
+							System.out.println(ls_id + "	" + clientInfo[2].replace(" client_nickname=", ""));
+							Client ls_user = api.getClientByNameExact(clientInfo[2].replace(" client_nickname=", ""), false);
+						}
+						list_counted ++;
+					}
+					list_counted = list_counted -1;
+                    System.out.println("\nTotal: " + list_counted);
+                    break;
+				case "help":
+					System.out.println("List of commands:\n" +
+							"'exit' - End this bot\n" +
+							"'say <text>' - Send a message to the server.\n" +
+							"'ls' - list all clients\n" +
+							"'help' - See this list");
+					break;
 			default:
-				System.out.println(prefixhelper.getPrefix() + "Unknown command.");
+				System.out.println(prefixhelper.getPrefix() + "Unknown command. Try 'help'!");
 			}
 
 		}
