@@ -1,0 +1,13 @@
+normal:
+
+0 - Everything is ok
+100 - restarted
+
+Error:
+
+401 - TS3CommandFailed
+402 - TS3QueryShutdownException
+300 - InternalError
+302 - Interrupted
+303 - URISyntaxException
+304 - TS3ConnectionFailed
