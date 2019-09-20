@@ -13,8 +13,10 @@ import com.github.theholywaffle.teamspeak3.api.event.*;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3CommandFailedException;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3QueryShutDownException;
+import com.github.theholywaffle.teamspeak3.api.wrapper.ChannelGroup;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
+import com.github.theholywaffle.teamspeak3.api.wrapper.ServerGroup;
 import com.karatek.teamspeakbot.main.utils.prefixhelper;
 
 import java.io.BufferedReader;
@@ -273,13 +275,39 @@ public class Main {
 								"Channel information\n" +
 								"Channel name: " + api.getChannelInfo(selected.getChannelId()).getName() + "\n" +
 								"Channel description: " + api.getChannelInfo(selected.getChannelId()).getDescription() + "\n\n" +
-								"Internal information\n\n" +
+								"Internal information\n" +
 								"ID: " + selected.getId() + "\n" +
 								"UUID: " + selected.getUniqueIdentifier() + "\n" +
 								"Database ID: " + selected.getDatabaseId() + "\n" +
 								"IP: " + selected.getIp()+ "\n";
 
 						System.out.println(output_info);
+						int groups_list_counted = 0;
+						List<ServerGroup> serverGroupList = api.getServerGroupsByClient(selected);
+						ServerGroup[] item = serverGroupList.toArray(new ServerGroup[serverGroupList.size()]);
+						System.out.println("ServerGroups:\n");
+						System.out.println("ID		Name");
+        				for(ServerGroup s : item){
+            				System.out.println(s.getId() + "		" + s.getName());
+        				}
+					}
+					break;
+				case "sgroups":
+					List<ServerGroup> serverGroupList = api.getServerGroups();
+						ServerGroup[] item = serverGroupList.toArray(new ServerGroup[serverGroupList.size()]);
+						System.out.println("ServerGroups:\n");
+						System.out.println("ID		Name");
+        				for(ServerGroup s : item){
+            				System.out.println(s.getId() + "		" + s.getName());
+        				}
+        				break;
+				case "cgroups":
+					List<ChannelGroup> channelGroupList = api.getChannelGroups();
+					ChannelGroup[] item_channel_group_list = channelGroupList.toArray(new ChannelGroup[channelGroupList.size()]);
+					System.out.println("ServerGroups:\n");
+					System.out.println("ID		Name");
+					for(ChannelGroup s : item_channel_group_list){
+						System.out.println(s.getId() + "		" + s.getName());
 					}
 					break;
 				case "kick":
@@ -339,6 +367,44 @@ public class Main {
 					list_counted = list_counted -1;
                     System.out.println("\nTotal: " + list_counted);
                     break;
+				case "addsgroup":
+					if(selected == null) {
+						System.out.println("Please make a selection.");
+					} else {
+						if(strings.length != 2) {
+							System.out.println("Usage: addsgroup <group id>");
+						} else {
+
+							try {
+								api.addClientToServerGroup(Integer.parseInt(strings[1]), selected.getDatabaseId());
+								System.out.println("Done.");
+							} catch (TS3CommandFailedException e) {
+								log("TS3CommandFailed, Maybe that ServerGroup doesn't exist? (Error 401)");
+							}
+
+
+						}
+					}
+					break;
+				case "delsgroup":
+					if(selected == null) {
+						System.out.println("Please make a selection.");
+					} else {
+						if(strings.length != 2) {
+							System.out.println("Usage: addsgroup <group id>");
+						} else {
+
+							try {
+								api.removeClientFromServerGroup(Integer.parseInt(strings[1]), selected.getDatabaseId());
+								System.out.println("Done.");
+							} catch (TS3CommandFailedException e) {
+								log("TS3CommandFailed, Maybe that ServerGroup doesn't exist? (Error 401)");
+							}
+
+
+						}
+					}
+					break;
 				case "help":
 					System.out.println("List of commands:\n" +
 							"'exit' - End this bot\n" +
@@ -347,6 +413,10 @@ public class Main {
 							"'select <id> - select a client\n" +
 							"'info' - get information about a client, use 'select' first!\n" +
 							"'kick' (<message>) - kicks a client with an optional message, use 'select' first!\n" +
+							"'sgroups' - get a list of all server groups\n" +
+							"'cgroups' - get a list of all channel groups\n" +
+							"'addsgroup <group id>' - add a client to a server group, use 'select' first!\n" +
+							"'delsgroup <group id>' - remove a client from a server group, use 'select' first!\n" +
 							"'help' - See this list");
 					break;
 			default:
