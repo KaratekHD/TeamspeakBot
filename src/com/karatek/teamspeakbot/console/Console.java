@@ -21,14 +21,14 @@ public class Console {
 
     public static void startConsole(Main main, TS3Api api, TS3Query query, String input, BufferedReader br, int selected_id, ClientInfo selected, int clientId) throws IOException {
         while(true) {
-            String prefix;
-            if(selected == null) {
-                prefix = "~";
+            String id = "";
+            if(Main.selected == null) {
+                id = "~";
             } else {
-                prefix = Integer.toString(selected.getId());
+                id = Integer.toString(Main.selected.getId());
             }
-            //System.out.print(Main.user + "@" + Main.ip + ":" + prefix + "> ");
-            System.out.print("> ");
+            System.out.print(Main.user + "@" + Main.ip + ":" + id + "> ");
+            //System.out.print("> ");
             input = br.readLine();
             String[] strings = input.split(" ");
             switch (strings[0]) {
