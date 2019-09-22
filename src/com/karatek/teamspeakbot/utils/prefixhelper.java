@@ -1,4 +1,4 @@
-package com.karatek.teamspeakbot.main.utils;
+package com.karatek.teamspeakbot.utils;
 
 /*
  * KTS
