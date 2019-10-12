@@ -19,6 +19,7 @@ public class commandHelp {
                 "'cgroups' - get a list of all channel groups\n" +
                 "'addsgroup <group id>' - add a client to a server group, use 'select' first!\n" +
                 "'delsgroup <group id>' - remove a client from a server group, use 'select' first!\n" +
+                "'about' - get version importations\n" +
                 "'help' - See this list");
     }
 }

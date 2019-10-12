@@ -11,6 +11,7 @@ import com.github.theholywaffle.teamspeak3.api.exception.TS3CommandFailedExcepti
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import com.karatek.teamspeakbot.console.commands.*;
 import com.karatek.teamspeakbot.main.Main;
+import com.karatek.teamspeakbot.resources.colors;
 import com.karatek.teamspeakbot.utils.prefixhelper;
 
 import java.io.BufferedReader;
@@ -19,16 +20,18 @@ import java.io.IOException;
 
 public class Console {
 
-    public static void startConsole(Main main, TS3Api api, TS3Query query, String input, BufferedReader br, int selected_id, ClientInfo selected, int clientId) throws IOException {
+    public static ClientInfo selected;
+
+    public static void startConsole(Main main, TS3Api api, TS3Query query, String input, BufferedReader br, int selected_id, ClientInfo selectedInternal, int clientId) throws IOException {
+        String id;
+        selected = selectedInternal;
         while(true) {
-            String id = "";
-            if(Main.selected == null) {
+            if(selected == null) {
                 id = "~";
             } else {
-                id = Integer.toString(Main.selected.getId());
+                id = Integer.toString(selected.getId());
             }
-            System.out.print(Main.user + "@" + Main.ip + ":" + id + "> ");
-            //System.out.print("> ");
+            System.out.print("\r" + colors.ABSI_BOLD + colors.ANSI_GREEN +  Main.user + colors.ANSI_RESET + "@" + colors.ANSI_GREEN + Main.ip + colors.ANSI_RESET + ":" + colors.ANSI_BLUE + id + colors.ANSI_RESET +  "> ");
             input = br.readLine();
             String[] strings = input.split(" ");
             switch (strings[0]) {
@@ -54,9 +57,17 @@ public class Console {
                             }
                             if (worked) {
                                 System.out.println("You selected " + selected.getNickname() + ".");
+                                Main.selected = selected;
                             }
                         } else {
-                            System.out.println("Usage: select <id>");
+                            if(strings[1].equals("~")) {
+                                selected = null;
+                                Main.selected = selected;
+                                System.out.println("Unselected.");
+                            } else {
+                                System.out.println("Usage: select <id>");
+                            }
+
                         }
                     }
                     break;
@@ -87,6 +98,9 @@ public class Console {
                     break;
                 case "help":
                     commandHelp.execute();
+                    break;
+                case "about":
+                    commandAbout.execute();
                     break;
                 default:
                     if(!strings[0].equals("")) {

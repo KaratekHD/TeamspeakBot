@@ -18,7 +18,7 @@ public class Logger {
 		} else {
 			id = Integer.toString(Main.selected.getId());
 		}
-		System.out.print(Main.user + "@" + Main.ip + ":" + id + "> ");
+		System.out.print("\r" + Main.user + "@" + Main.ip + ":" + id + "> ");
 	}
 
 

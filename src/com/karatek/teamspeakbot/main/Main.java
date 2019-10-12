@@ -14,6 +14,7 @@ import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedExce
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import com.karatek.teamspeakbot.console.Console;
 import com.karatek.teamspeakbot.listeners.*;
+import com.karatek.teamspeakbot.resources.buildInfo;
 import com.karatek.teamspeakbot.utils.prefixhelper;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,8 +38,9 @@ public class Main {
 
 
 
+
 	public static void main(String[] args) throws IOException {
-		System.out.println("Karatek Teamspeak Bot v1.1");
+		System.out.println("Karatek Teamspeak Bot v" + buildInfo.version);
 		System.out.println("Copyright (C) 2019 Karatek_HD. Do not distribute!");
 		System.out.println("");
 		config.setHost(ip);
