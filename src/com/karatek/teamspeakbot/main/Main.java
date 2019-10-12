@@ -16,9 +16,9 @@ import com.karatek.teamspeakbot.console.Console;
 import com.karatek.teamspeakbot.listeners.*;
 import com.karatek.teamspeakbot.resources.buildInfo;
 import com.karatek.teamspeakbot.utils.prefixhelper;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import com.karatek.teamspeakbot.utils.setuper;
+
+import java.io.*;
 
 public class Main {
 
@@ -28,11 +28,10 @@ public class Main {
 	public static TS3Api api = null;
 	public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	public static String input;
-	public static int selected_id;
 	public static ClientInfo selected = null;
-	public static String ip = "gamelts.nitrado.net";
-	public static String user = "botti";
-	private static String password = "Srg5RyNR";
+	public static String ip = "";
+	public static String user = "";
+	public static String password = "";
 
 	private static prefixhelper prefixhelper = new prefixhelper();
 
@@ -43,6 +42,9 @@ public class Main {
 		System.out.println("Karatek Teamspeak Bot v" + buildInfo.version);
 		System.out.println("Copyright (C) 2019 Karatek_HD. Do not distribute!");
 		System.out.println("");
+		setuper.setup(br, input);
+
+
 		config.setHost(ip);
 
 		System.out.println(prefixhelper.getPrefix() + "Connecting to " + ip + " with queryusername " + user + "...");
@@ -145,11 +147,9 @@ public class Main {
 				privKeyListener.onPrivKeyUsage(privilegeKeyUsedEvent, api);
 			}
 		});
-		Console.startConsole(new Main(), api, query, input, br, selected_id, selected, clientId);
+		Console.startConsole(new Main(), api, query, br, selected, clientId);
 
 	}
-
-
 
 	public static void log(String string) {
 		System.out.println("\b\b" + prefixhelper.getPrefix() + string);

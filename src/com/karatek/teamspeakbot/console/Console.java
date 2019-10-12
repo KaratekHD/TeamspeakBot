@@ -22,7 +22,7 @@ public class Console {
 
     public static ClientInfo selected;
 
-    public static void startConsole(Main main, TS3Api api, TS3Query query, String input, BufferedReader br, int selected_id, ClientInfo selectedInternal, int clientId) throws IOException {
+    public static void startConsole(Main main, TS3Api api, TS3Query query, BufferedReader br, ClientInfo selectedInternal, int clientId) throws IOException {
         String id;
         selected = selectedInternal;
         while(true) {
@@ -31,7 +31,9 @@ public class Console {
             } else {
                 id = Integer.toString(selected.getId());
             }
-            System.out.print("\r" + colors.ABSI_BOLD + colors.ANSI_GREEN +  Main.user + colors.ANSI_RESET + "@" + colors.ANSI_GREEN + Main.ip + colors.ANSI_RESET + ":" + colors.ANSI_BLUE + id + colors.ANSI_RESET +  "> ");
+            System.out.print("\r" + colors.ABSI_BOLD + colors.ANSI_GREEN +  Main.user + "@" + colors.ANSI_GREEN + Main.ip + colors.ANSI_RESET + ":" + colors.ABSI_BOLD + colors.ANSI_BLUE + id +  " $ " + colors.ANSI_RESET);
+            String input = "";
+
             input = br.readLine();
             String[] strings = input.split(" ");
             switch (strings[0]) {
@@ -47,7 +49,7 @@ public class Console {
                         System.out.println("Usage: select <id>");
                     } else {
                         if(isInteger(strings[1])) {
-                            selected_id = Integer.parseInt(strings[1]);
+                            int selected_id = Integer.parseInt(strings[1]);
                             boolean worked = true;
                             try {
                                 selected = api.getClientInfo(selected_id);

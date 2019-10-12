@@ -6,6 +6,7 @@ package com.karatek.teamspeakbot.utils;
  */
 
 import com.karatek.teamspeakbot.main.Main;
+import com.karatek.teamspeakbot.resources.colors;
 
 public class Logger {
 
@@ -18,7 +19,8 @@ public class Logger {
 		} else {
 			id = Integer.toString(Main.selected.getId());
 		}
-		System.out.print("\r" + Main.user + "@" + Main.ip + ":" + id + "> ");
+		//System.out.print("\r" + Main.user + "@" + Main.ip + ":" + id + "> ");
+		System.out.print("\r" + colors.ABSI_BOLD + colors.ANSI_GREEN +  Main.user + "@" + colors.ANSI_GREEN + Main.ip + colors.ANSI_RESET + ":" + colors.ABSI_BOLD + colors.ANSI_BLUE + id +  " $ " + colors.ANSI_RESET);
 	}
 
 

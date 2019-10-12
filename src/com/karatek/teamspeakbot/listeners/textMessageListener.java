@@ -20,6 +20,7 @@ public class textMessageListener {
 					String message = e.getMessage().toLowerCase();
 					if(api.getClientInfo(e.getInvokerId()).isInServerGroup(20345))
 					if(message.startsWith("!")) {
+						Logger.log(api.getClientInfo(e.getInvokerId()).getNickname() + " issued bot command: " + e.getMessage());
 						switch (message) {
 							case "!ping":
 								api.sendPrivateMessage(e.getInvokerId(),"pong");
