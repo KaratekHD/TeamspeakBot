@@ -86,6 +86,9 @@ public class Console {
                         }
                     }
                     break;
+                case "license":
+                    commandLicense.execute();
+                    break;
                 case "whoami":
                     System.out.println(clientId);
                     break;
