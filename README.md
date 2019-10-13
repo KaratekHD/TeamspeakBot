@@ -21,9 +21,9 @@ A step by step series of examples that tell you how to get a running version of 
 
 First of all, download a .jar file from 'releases'.
 
--> Currently not available...
+
 ```
-wget https://example.com/somewhat.jar
+wget https://github.com/KaratekHD/TeamspeakBot/releases/download/v1.1-alpha.1/TeamspeakBot.jar
 ```
 
 Then run the jar:
@@ -48,8 +48,6 @@ NOT IMPLEMENTED YET!
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
-NOT IMPLEMENTED YET!
-
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ## Authors
