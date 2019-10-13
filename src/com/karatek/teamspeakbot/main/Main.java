@@ -27,6 +27,8 @@ import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedExce
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import com.karatek.teamspeakbot.console.Console;
 import com.karatek.teamspeakbot.listeners.*;
+import com.karatek.teamspeakbot.utils.Logger;
+import com.karatek.teamspeakbot.utils.logFileHelper;
 import com.karatek.teamspeakbot.utils.prefixhelper;
 import com.karatek.teamspeakbot.utils.setuper;
 
@@ -55,12 +57,12 @@ public class Main {
                 "This program comes with ABSOLUTELY NO WARRANTY.\n" +
                 "This is free software, and you are welcome to redistribute it\n" +
                 "under certain conditions; type `license' for details.\n");
+		logFileHelper.createLogfile();
 		setuper.setup(br, input);
-
-
 		config.setHost(ip);
 
 		System.out.println(prefixhelper.getPrefix() + "Connecting to " + ip + " with queryusername " + user + "...");
+		logFileHelper.addLineToLog("Connecting to " + ip + " with queryusername " + user + "...");
 		query = new TS3Query(config);
 		try {
 			query.connect();
@@ -89,6 +91,7 @@ public class Main {
 			System.exit(401);
 		}
 
+		logFileHelper.addLineToLog("Connected successfully!");
 		System.out.println(prefixhelper.getPrefix() + "Connected successfully!");
 		api.sendServerMessage("I am online!");
 		api.registerAllEvents();
@@ -165,8 +168,7 @@ public class Main {
 	}
 
 	public static void log(String string) {
-		System.out.println("\b\b" + prefixhelper.getPrefix() + string);
-		System.out.print("> ");
+		Logger.log(string);
 	}
 
 }

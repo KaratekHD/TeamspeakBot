@@ -19,6 +19,5 @@ package com.karatek.teamspeakbot.resources;
  */
 
 public class buildInfo {
-    public static String version = "1.1-alpha.1";
-
+    public static String version = "1.1-alpha.1.1";
 }

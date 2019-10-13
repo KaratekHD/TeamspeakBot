@@ -25,14 +25,13 @@ public class Logger {
 
     public static void log(String string) {
 		System.out.println("\r" + prefixhelper.getPrefix() + string);
-		//System.out.print("> ");
+		logFileHelper.addLineToLog(prefixhelper.getPrefix() + string);
 		String id = "";
 		if(Main.selected == null) {
 			id = "~";
 		} else {
 			id = Integer.toString(Main.selected.getId());
 		}
-		//System.out.print("\r" + Main.user + "@" + Main.ip + ":" + id + "> ");
 		System.out.print("\r" + colors.ABSI_BOLD + colors.ANSI_GREEN +  Main.user + "@" + colors.ANSI_GREEN + Main.ip + colors.ANSI_RESET + ":" + colors.ABSI_BOLD + colors.ANSI_BLUE + id +  " $ " + colors.ANSI_RESET);
 	}
 

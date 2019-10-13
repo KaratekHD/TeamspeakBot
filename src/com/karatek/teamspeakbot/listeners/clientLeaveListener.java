@@ -29,6 +29,5 @@ public class clientLeaveListener {
 
     public static void onLeave(ClientLeaveEvent e, TS3Query query, TS3Api api) {
         Logger.log("Client " + e.getClientId() + " logged out!");
-
     }
 }
