@@ -23,6 +23,7 @@ import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3QueryShutDownException;
+import com.karatek.teamspeakbot.main.Main;
 import com.karatek.teamspeakbot.utils.Logger;
 import com.karatek.teamspeakbot.utils.prefixhelper;
 
@@ -49,6 +50,7 @@ public class textMessageListener {
 								}
 								System.out.print((char)13);
 								System.out.println(prefixhelper.getPrefix() + "Shutting down.");
+								Main.end = true;
 								System.exit(0);
 							default:
 								api.sendPrivateMessage(e.getInvokerId(),"Unknown command.");
