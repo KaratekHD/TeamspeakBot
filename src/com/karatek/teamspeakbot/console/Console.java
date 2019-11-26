@@ -120,6 +120,13 @@ public class Console {
                 case "about":
                     commandAbout.execute();
                     break;
+                case "listchannels":
+                    commandListChannels.execute(api);
+                    break;
+                case "clear":
+                case "cls":
+                    commandClear.execute();
+                    break;
                 default:
                     if(!strings[0].equals("")) {
                         System.out.println(prefixhelper.getPrefix() + "Unknown command. Try 'help'!");

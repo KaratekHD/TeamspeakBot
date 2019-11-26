@@ -24,6 +24,7 @@ import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.event.*;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3CommandFailedException;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
+import com.github.theholywaffle.teamspeak3.api.exception.TS3QueryShutDownException;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import com.karatek.teamspeakbot.console.Console;
 import com.karatek.teamspeakbot.listeners.*;
@@ -46,6 +47,7 @@ public class Main {
 	public static String ip = "";
 	public static String user = "";
 	public static String password = "";
+	public static boolean end = false;
 
 	private static prefixhelper prefixhelper = new prefixhelper();
 
@@ -161,6 +163,26 @@ public class Main {
 			@Override
 			public void onPrivilegeKeyUsed(PrivilegeKeyUsedEvent privilegeKeyUsedEvent) {
 				privKeyListener.onPrivKeyUsage(privilegeKeyUsedEvent, api);
+			}
+		});
+		Runtime.getRuntime().addShutdownHook(new Thread()
+		{
+			@Override
+			public void run() {
+				if(!end) {
+					Logger.log("Trying to finish politely ...");
+					try{ api.setNickname("KTS_Internal"); }catch (Exception e){
+						System.out.println(prefixhelper.getPrefix() + "Internal Error. (Error 300)");
+					}
+					try {
+						query.exit();
+					} catch (TS3QueryShutDownException ex) {
+						System.err.println(prefixhelper.getPrefix() + "FATAL: TS3QuerySHutdownException (Error 402)");
+						System.exit(402);
+					}
+					System.out.print((char)13);
+					System.out.println(com.karatek.teamspeakbot.utils.prefixhelper.getPrefix() + "Shutting down.");
+				}
 			}
 		});
 		Console.startConsole(new Main(), api, query, br, selected, clientId);
